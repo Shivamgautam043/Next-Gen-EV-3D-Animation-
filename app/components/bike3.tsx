@@ -186,7 +186,7 @@ export default function App() {
                     >
                         <planeGeometry args={[1, 1]} />
                         <MeshReflectorMaterial
-                            blur={[100, 300]} // Adjust blur values for a watery effect
+                            blur={[100, 299]} // Adjust blur values for a watery effect
                             resolution={2084} // Set resolution for better performance
                             mixBlur={1.5} // Increase mixBlur to blend blur with surface roughness
                             mixStrength={0.5} // Increase mixStrength to enhance reflection intensity
