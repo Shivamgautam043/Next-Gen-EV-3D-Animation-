@@ -74,7 +74,7 @@ export default function App() {
                         </button>
                         <button
                             className="tw-border tw-rounded tw-mb-1 tw-p-1 tw-bg-black"
-                            onClick={() => handleClickColor("#ffff00")}
+                            onClick={() => handleClickColor("yellow")}
                         >
                             Yellow
                         </button>
@@ -134,7 +134,7 @@ export default function App() {
                     <CameraRig rotationYRef={rotationYRef} />
                 </Canvas>
             </div>
-            <div className="tw-h-[200vh] tw-bg-black"></div>
+            <div className="tw-h-[300vh] tw-bg-black"></div>
         </>
     );
 }
