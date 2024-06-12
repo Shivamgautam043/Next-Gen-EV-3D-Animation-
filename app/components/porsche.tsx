@@ -2,6 +2,7 @@ import React, { useLayoutEffect, useRef, useState, useEffect } from "react";
 import { Canvas, applyProps, useFrame } from "@react-three/fiber";
 import { PerformanceMonitor, AccumulativeShadows, RandomizedLight, Environment, Lightformer, Float, useGLTF } from "@react-three/drei";
 import * as THREE from "three";
+import { Text } from "@react-three/drei";
 
 // Debounce function to limit how often a function can run
 function debounce(func: (...args: any[]) => void, wait: number) {
@@ -120,6 +121,7 @@ export default function App() {
             <Lightformers bgColor={bgColor} />
           </Environment>
           <CameraRig rotationYRef={rotationYRef} />
+          <Text size={[0.5,0.5,0.5]} color="blue">Ludo</Text>
         </Canvas>
       </div>
       <div className="tw-h-[200vh] tw-bg-black"></div>
@@ -251,9 +253,6 @@ function Lightformers({
                     target={[-4, 0, 0]}
                 />
             </Float>
-           
-
-
     </>
   );
 }

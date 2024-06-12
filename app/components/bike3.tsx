@@ -16,10 +16,7 @@ import {
 import * as THREE from "three";
 import { Cards } from "./cards";
 import { Cards2 } from "./cards2";
-import { Ampere_Animation } from "./ampere";
-import { Ampere_Scooty } from "~/ampere";
-// import { Smoke } from "react-smoke";
-import { TessellateModifier } from "three/examples/jsm/Addons.js";
+import { Smoke } from "react-smoke";
 
 const keyframes = [
     {
@@ -77,6 +74,8 @@ const keyframes = [
 export default function App() {
     const [currentKeyframe, setCurrentKeyframe] = useState(0);
     const totalKeyframes = keyframes.length;
+    const [isShivamVisible, setIsShivamVisible] = useState(false);
+    const shivamRef = useRef(null);
 
     const nextKeyframe = () => {
         setCurrentKeyframe(
@@ -98,9 +97,41 @@ export default function App() {
         config: config.molasses, // Use a pre-configured spring for smooth transitions
     });
 
+    let count = 0;
+
+    useEffect(() => {
+        let lastScrollY = window.scrollY;
+        let lastScrollTime = 0;
+
+        const handleScroll = () => {
+            const currentTime = Date.now();
+            // console.log(currentTime);
+            const currentScrollY = window.scrollY;
+
+            if (currentTime - lastScrollTime >= 1500) {
+                if (currentScrollY > lastScrollY) {
+                    console.log("Scrolled down");
+                    nextKeyframe();
+                } else if (currentScrollY < lastScrollY) {
+                    console.log("Scrolled up");
+                    prevKeyframe();
+                }
+            }
+            lastScrollTime = currentTime;
+            lastScrollY = currentScrollY;
+            count++;
+        };
+
+        window.addEventListener("scroll", handleScroll);
+
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }, []);
+
     return (
         <>
-            <div className=" tw-py-4 tw-flex tw-w-full tw-text-white  tw-justify-between tw-items-center tw-px-16 tw-bg-[#171616] tw-gap-2  !sm:tw-flex-col">
+            <div className="tw-py-4 tw-flex tw-w-full tw-text-white tw-justify-between tw-items-center tw-px-16 tw-bg-[#171616] tw-gap-2 !sm:tw-flex-col">
                 <div className="tw-flex tw-justify-center">
                     <img
                         src="/nexus.svg"
@@ -108,13 +139,13 @@ export default function App() {
                         className="sm:tw-scale-[1.5]"
                     />
                 </div>
-                <div className="sm:tw-flex tw-gap-8 tw-hidden sm:tw-block ">
+                <div className="sm:tw-flex tw-gap-8 tw-hidden sm:tw-block">
                     <div className="tw-font-bold">PRODUCTS</div>
-                    <div>STORE </div>
-                    <div>ABOUT US </div>
+                    <div>STORE</div>
+                    <div>ABOUT US</div>
                     <div>CONTACT</div>
                 </div>
-                <div className="tw-flex sm:tw-gap-4 tw-items-center tw-gap-2 ">
+                <div className="tw-flex sm:tw-gap-4 tw-items-center tw-gap-2">
                     <img
                         src="https://i0.wp.com/showmeleb.com/wp-content/uploads/2020/06/facebook-logo-png-white-facebook-logo-png-white-facebook-icon-png-32.png?ssl=1"
                         alt=""
@@ -132,158 +163,170 @@ export default function App() {
                     />
                 </div>
             </div>
+            <br />
+
             {/* this is desktop view */}
-            <div className="tw-w-full tw-h-[100vh] tw-bg-black tw-hidden sm:tw-block ">
-                <div className="tw-absolute tw-z-[99] tw-flex tw-flex-col tw-justify-center tw-items-center tw-text-white tw-left-[80px] tw-top-[40%]  tw-z-10 tw-opacity-[0.7] tw-text-[12px]">
-                    <div>
-                        <button
-                            onClick={prevKeyframe}
-                            className="tw-text-[16px]"
-                        >
-                            {"▲"}
-                        </button>
-                    </div>
-
-                    {keyframes.map((_, index) => (
-                        <div key={index}>
-                            {currentKeyframe === index ? <p>⬤</p> : <p>〇</p>}
+            <div className="shivam tw-realtive tw-w-full tw-border tw-border-red-600 tw-border-4 tw-bg-black tw-hidden sm:tw-block">
+                <div className="tw-sticky tw-top-[0px] tw-overflow-hidden">
+                    <div className="tw-absolute tw-z-[10]  tw-flex tw-flex-col tw-justify-center tw-items-center tw-text-white tw-left-[80px] tw-top-[40%]  tw-z-10 tw-opacity-[0.7] tw-text-[12px]">
+                        <div>
+                            <button
+                                onClick={prevKeyframe}
+                                className="tw-text-[16px]"
+                            >
+                                {"▲"}
+                            </button>
                         </div>
-                    ))}
-                    <div>
-                        <button
-                            onClick={nextKeyframe}
-                            className="tw-text-[16px]"
-                        >
-                            {"▼"}
-                        </button>
+
+                        {keyframes.map((_, index) => (
+                            <div key={index}>
+                                {currentKeyframe === index ? (
+                                    <p>⬤</p>
+                                ) : (
+                                    <p>〇</p>
+                                )}
+                            </div>
+                        ))}
+                        <div>
+                            <button
+                                onClick={nextKeyframe}
+                                className="tw-text-[16px]"
+                            >
+                                {"▼"}
+                            </button>
+                        </div>
                     </div>
-                </div>
 
-                <div className="tw-absolute tw-text-white tw-top-[5%] tw-left-[264px] ">
-                    {" "}
-                    <div></div>
-                    <div className="tw-text-[200px] tw-italic tw-font-bold tw-opacity-[0.2] tw-z-[99]">
-                        MAGNUS EX
+                    <div className="tw-absolute tw-text-white tw-top-[5%] tw-left-[264px] ">
+                        {" "}
+                        <div></div>
+                        <div className="tw-text-[200px] tw-italic tw-font-bold tw-opacity-[0.2] tw-z-[99]">
+                            MAGNUS EX
+                        </div>
                     </div>
-                </div>
 
-                <div className="tw-absolute tw-w-screen tw-h-[80vh] tw-flex tw-items-center tw-z-10 ">
-                    <Cards index={currentKeyframe % keyframes.length} />
-                </div>
+                    <div className="tw-absolute  tw-h-[80vh] tw-flex tw-items-center tw-z-10 ">
+                        <Cards index={currentKeyframe % keyframes.length} />
+                    </div>
 
-                <Canvas
-                    gl={{ logarithmicDepthBuffer: true, antialias: true }}
-                    dpr={[1, 1.5]}
-                    camera={{ position: [0, 5, 15], fov: 25 }}
-                    style={{ width: "100vw", height: "100vh" }}
-                >
-                    {/* <Smoke opacity={.12} density={100} /> */}
-
-                    <mesh
-                        scale={20}
-                        position={[0, 0, 10]}
-                        rotation={[-1.58, 0, 0]}
+                    <Canvas
+                        gl={{ logarithmicDepthBuffer: true, antialias: true }}
+                        dpr={[1, 1.5]}
+                        camera={{ position: [0, 5, 15], fov: 25 }}
+                        style={{ width: "98vw", height: "78.5vh" }}
                     >
-                        <planeGeometry args={[1, 1]} />
-                        <MeshReflectorMaterial
-                            blur={[100, 299]} // Adjust blur values for a watery effect
-                            resolution={2084} // Set resolution for better performance
-                            mixBlur={1.5} // Increase mixBlur to blend blur with surface roughness
-                            mixStrength={0.5} // Increase mixStrength to enhance reflection intensity
-                            roughness={0.3} // Lower roughness for smoother reflections
-                            depthScale={0.5} // Increase depth scale to add depth to reflections
-                            minDepthThreshold={1}
-                            maxDepthThreshold={0.7}
-                            color="white" // Light blue color to simulate water
-                            metalness={3} // Adjust metalness for slight metallic sheen
-                            mirror={1} // Set mirror value to 1 for strong reflections
-                        />
-                    </mesh>
+                        {/* <Smoke opacity={0.12} density={100} /> */}
 
-                    <a.group>
-                        <Bike
-                            rotation={[0, 0, 0]}
-                            scale={keyframes[currentKeyframe].scale}
-                            targetColor={color}
-                            rotationY={keyframes[currentKeyframe].rotation}
-                            position={position}
-                        />
-                    </a.group>
+                        <mesh
+                            scale={20}
+                            position={[0, 0, 10]}
+                            rotation={[-1.58, 0, 0]}
+                        >
+                            <planeGeometry args={[1, 1]} />
+                            <MeshReflectorMaterial
+                                blur={[100, 300]} // Adjust blur values for a watery effect
+                                resolution={2084} // Set resolution for better performance
+                                mixBlur={1.5} // Increase mixBlur to blend blur with surface roughness
+                                mixStrength={0.5} // Increase mixStrength to enhance reflection intensity
+                                roughness={0.3} // Lower roughness for smoother reflections
+                                depthScale={0.5} // Increase depth scale to add depth to reflections
+                                minDepthThreshold={1}
+                                maxDepthThreshold={0.7}
+                                color="white" // Light blue color to simulate water
+                                metalness={3} // Adjust metalness for slight metallic sheen
+                                mirror={1} // Set mirror value to 1 for strong reflections
+                            />
+                        </mesh>
 
-                    <hemisphereLight intensity={0.5} />
-                    {/* <pointLight position={[0, 0, 0]} intensity={10} /> */}
-                    {/* <Text position={[0,0,0]} scale={10}>.</Text> */}
+                        <a.group>
+                            <Bike
+                                rotation={[0, 0, 0]}
+                                scale={keyframes[currentKeyframe].scale}
+                                targetColor={color}
+                                rotationY={keyframes[currentKeyframe].rotation}
+                                position={position}
+                            />
+                        </a.group>
 
-                    <Environment resolution={1000}>
-                        {/* Ceiling */}
-                        <Lightformer
-                            intensity={2}
-                            rotation-x={Math.PI / 2}
-                            position={[0, 4, -9]}
-                            scale={[10, 1, 1]}
-                        />
-                        <Lightformer
-                            intensity={2}
-                            rotation-x={Math.PI / 2}
-                            position={[0, 4, -6]}
-                            scale={[10, 1, 1]}
-                        />
-                        <Lightformer
-                            intensity={2}
-                            rotation-x={Math.PI / 2}
-                            position={[0, 4, -3]}
-                            scale={[10, 1, 1]}
-                        />
-                        <Lightformer
-                            intensity={2}
-                            rotation-x={Math.PI / 2}
-                            position={[0, 4, 0]}
-                            scale={[10, 1, 1]}
-                        />
-                        <Lightformer
-                            intensity={2}
-                            rotation-x={Math.PI / 2}
-                            position={[0, 4, 3]}
-                            scale={[10, 1, 1]}
-                        />
-                        <Lightformer
-                            intensity={2}
-                            rotation-x={Math.PI / 2}
-                            position={[0, 4, 6]}
-                            scale={[10, 1, 1]}
-                        />
-                        <Lightformer
-                            intensity={2}
-                            rotation-x={Math.PI / 2}
-                            position={[0, 4, 9]}
-                            scale={[10, 1, 1]}
-                        />
-                        {/* Sides */}
-                        <Lightformer
-                            intensity={2}
-                            rotation-y={Math.PI / 2}
-                            position={[-50, 2, 0]}
-                            scale={[100, 2, 1]}
-                        />
-                        <Lightformer
-                            intensity={2}
-                            rotation-y={-Math.PI / 2}
-                            position={[50, 2, 0]}
-                            scale={[100, 2, 1]}
-                        />
-                        {/* Key */}
-                        <Lightformer
-                            form="ring"
-                            color="red"
-                            intensity={10}
-                            scale={2}
-                            position={[10, 5, 10]}
-                            onUpdate={(self) => self.lookAt(0, 0, 0)}
-                        />
-                    </Environment>
-                    <OrbitControls> </OrbitControls>
-                </Canvas>
+                        <hemisphereLight intensity={0.5} />
+                        {/* <pointLight position={[0, 0, 0]} intensity={10} /> */}
+                        {/* <Text position={[0,0,0]} scale={10}>.</Text> */}
+
+                        <Environment resolution={1000}>
+                            {/* Ceiling */}
+                            <Lightformer
+                                intensity={2}
+                                rotation-x={Math.PI / 2}
+                                position={[0, 4, -9]}
+                                scale={[10, 1, 1]}
+                            />
+                            <Lightformer
+                                intensity={2}
+                                rotation-x={Math.PI / 2}
+                                position={[0, 4, -6]}
+                                scale={[10, 1, 1]}
+                            />
+                            <Lightformer
+                                intensity={2}
+                                rotation-x={Math.PI / 2}
+                                position={[0, 4, -3]}
+                                scale={[10, 1, 1]}
+                            />
+                            <Lightformer
+                                intensity={2}
+                                rotation-x={Math.PI / 2}
+                                position={[0, 4, 0]}
+                                scale={[10, 1, 1]}
+                            />
+                            <Lightformer
+                                intensity={2}
+                                rotation-x={Math.PI / 2}
+                                position={[0, 4, 3]}
+                                scale={[10, 1, 1]}
+                            />
+                            <Lightformer
+                                intensity={2}
+                                rotation-x={Math.PI / 2}
+                                position={[0, 4, 6]}
+                                scale={[10, 1, 1]}
+                            />
+                            <Lightformer
+                                intensity={2}
+                                rotation-x={Math.PI / 2}
+                                position={[0, 4, 9]}
+                                scale={[10, 1, 1]}
+                            />
+                            {/* Sides */}
+                            <Lightformer
+                                intensity={2}
+                                rotation-y={Math.PI / 2}
+                                position={[-50, 2, 0]}
+                                scale={[100, 2, 1]}
+                            />
+                            <Lightformer
+                                intensity={2}
+                                rotation-y={-Math.PI / 2}
+                                position={[50, 2, 0]}
+                                scale={[100, 2, 1]}
+                            />
+                            {/* Key */}
+                            <Lightformer
+                                form="ring"
+                                color="red"
+                                intensity={10}
+                                scale={2}
+                                position={[10, 5, 10]}
+                                onUpdate={(self) => self.lookAt(0, 0, 0)}
+                            />
+                        </Environment>
+                        {/* <OrbitControls> </OrbitControls> */}
+                    </Canvas>
+                </div>
+
+                <div className="tw-h-[100vh] tw-bg-black tw-z-[-99]"> </div>
             </div>
+
+            <div className="tw-h-[200vh] tw-bg-red-400"></div>
 
             {/* this is mobile view */}
             <div className="sm:tw-hidden tw-w-full tw-h-[70vh] tw-bg-blue-100">
@@ -509,8 +552,8 @@ function Bike({
         });
     });
 
-    // const textureUrl = "/Red_03.png";
-    // const texture = new TextureLoader().load(textureUrl);
+    const textureUrl = "/Red_03.png";
+    const texture = new TextureLoader().load(textureUrl);
 
     useMemo(() => {
         applyProps(materials.Body_color, {
@@ -569,7 +612,7 @@ function Bike({
         applyProps(materials.Back_white_light, {
             metalness: 0.6,
             roughness: 0.2,
-            color: "black",
+            map: texture,
         });
         applyProps(materials.Back_light_glass, {
             metalness: 0.9,

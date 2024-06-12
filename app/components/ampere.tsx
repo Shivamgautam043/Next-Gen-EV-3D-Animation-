@@ -1,4 +1,5 @@
 import { Canvas } from "@react-three/fiber";
+
 import {
     Environment,
     Lightformer,
@@ -7,11 +8,15 @@ import {
     ContactShadows,
     Image,
     MeshReflectorMaterial,
+    OrbitControls,
 } from "@react-three/drei";
 import React from "react";
 import { Overlay } from "./overlay";
 import { Ampere_Scooty } from "~/ampere";
 import { metalness } from "three/examples/jsm/nodes/Nodes.js";
+import { TextureLoader } from "three";
+// const smokeTexture = new TextureLoader().load("path/to/smoke_texture.png");
+
 
 export function Ampere_Animation() {
     const [animationIndex, setAnimationIndex] = React.useState(0);
@@ -53,7 +58,7 @@ export function Ampere_Animation() {
                                 mirror={.5} // Set mirror value to 1 for strong reflections
                             />
                         </mesh>
-
+                      
                         <ScrollControls
                             pages={10}
                             damping={0.25}
@@ -169,3 +174,22 @@ export function Ampere_Animation() {
         </>
     );
 }
+
+
+
+// function Smoke() {
+//     const ref = useRef();
+  
+//     useFrame(() => {
+//       ref.current.rotation.y += 0.01;
+//     });
+  
+//     return (
+//       <points ref={ref}>
+//         <spriteMaterial attach="material" map={smokeTexture} transparent opacity={0.5} />
+//         {/* Use a smoke texture for the material */}
+//         <sprite scale={[10, 10, 10]} />
+//       </points>
+//     );
+//   }
+  

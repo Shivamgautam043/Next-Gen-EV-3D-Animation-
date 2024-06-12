@@ -1,6 +1,5 @@
 import { animated, useTransition } from "@react-spring/web";
 import { concatenateNonNullStringsWithSpaces } from "./global-common-typescript/utilities/utilities";
-
 type Content = {
     heading: string,
     headingStyle: string,

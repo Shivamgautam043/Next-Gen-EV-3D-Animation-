@@ -8,6 +8,7 @@ import {
     Lightformer,
     Float,
     useGLTF,
+    OrbitControls,
 } from "@react-three/drei";
 import * as THREE from "three";
 
@@ -74,7 +75,7 @@ export default function App() {
                         </button>
                         <button
                             className="tw-border tw-rounded tw-mb-1 tw-p-1 tw-bg-black"
-                            onClick={() => handleClickColor("yellow")}
+                            onClick={() => handleClickColor("#ffff00")}
                         >
                             Yellow
                         </button>
@@ -132,9 +133,10 @@ export default function App() {
                         <Lightformers bgColor={bgColor} />
                     </Environment>
                     <CameraRig rotationYRef={rotationYRef} />
+                    <OrbitControls></OrbitControls>
                 </Canvas>
             </div>
-            <div className="tw-h-[300vh] tw-bg-black"></div>
+            <div className="tw-h-[200vh] tw-bg-black"></div>
         </>
     );
 }
